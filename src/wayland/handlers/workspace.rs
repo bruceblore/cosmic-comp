@@ -108,6 +108,13 @@ impl WorkspaceHandler for State {
                         true,
                     );
                 }
+                Request::Rename { workspace, name } => {
+    let mut shell = self.common.shell.write();
+    if shell.workspaces.space_for_handle(&workspace).is_some() {
+        let mut update = self.common.workspace_state.update();
+        update.set_workspace_name(&workspace, name);
+    }
+}
                 _ => {}
             }
         }
